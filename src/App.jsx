@@ -8,8 +8,9 @@ import Navbar from './components/Navbar';
 import HudOverlay from './components/HudOverlay';
 import SpaceHero from './components/SpaceHero';
 import CyberWormhole from './components/CyberWormhole';
-import TechNodes from './components/TechNodes';
-import CyberCity from './components/CyberCity';
+import RoboticsFactory from './components/RoboticsFactory';
+import QuantumLab from './components/QuantumLab';
+import CyberNetworkWorld from './components/CyberNetworkWorld';
 import Effects from './components/Effects';
 import audioEngine from './utils/AudioEngine';
 
@@ -190,14 +191,14 @@ export default function App() {
           {/* Core wormhole flight tunnel particles and rings */}
           <CyberWormhole currentScrollY={currentScrollY} />
           
-          {/* Detailed Sector Nodes */}
-          <TechNodes 
-            activeSector={activeSector - 1} // maps activeSector [1..4] to nodes [0..3]
-            onNodeClick={(id) => handleNavigate(id + 1)} 
-          />
+          {/* Robotics Factory Zones (Sectors 1 to 2) */}
+          <RoboticsFactory onSelectEvent={setSelectedEvent} />
 
-          {/* AI Cyber City (Sector 5 destination) */}
-          <CyberCity onSelectEvent={setSelectedEvent} />
+          {/* Quantum Laboratory (Sectors 3 to 4) */}
+          <QuantumLab onSelectEvent={setSelectedEvent} />
+
+          {/* Floating Cyber Network World (Sector 5 destination) */}
+          <CyberNetworkWorld onSelectEvent={setSelectedEvent} />
           
           <Effects />
           

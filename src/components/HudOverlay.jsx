@@ -12,37 +12,37 @@ const SECTOR_DATA = [
     icon: Compass
   },
   {
-    title: "NEXUS CORE",
-    subtitle: "Central Intelligence Hub",
-    description: "The primary administrative center of the Techverse. Operating at sub-atomic speeds, the Nexus Core acts as the neural bridge connecting interstellar datasets and stabilizing local warp fields.",
-    metrics: { efficiency: "99.98%", nodes: 4096, power: "4.2 GW" },
-    icon: Orbit
-  },
-  {
-    title: "SYNAPSE NET",
-    subtitle: "Distributed Neural Web",
-    description: "A living grid of bio-luminescent fiber nodes. Synapse Net manages deep learning neural relays, mirroring organic brains to dynamically route exabytes of neural streams across dimensions.",
-    metrics: { efficiency: "97.42%", nodes: 16384, power: "8.9 GW" },
-    icon: Waypoints
-  },
-  {
-    title: "QUANTUM CELL",
-    subtitle: "Sub-Atomic Multi-Processor",
-    description: "A mathematical lattice harnessing the superposition of quantum particles. The Quantum Cell computes hyper-dimensional algorithms and models cosmic anomalies in real time.",
-    metrics: { efficiency: "100.0%", nodes: 1024, power: "1.1 GW" },
+    title: "ROBOTIC ASSEMBLY LINE",
+    subtitle: "Heavy Fabrication Zone 01",
+    description: "Welcome to the heavy manufacturing division. Watch jointed robotic arms swivel and bend dynamically to weld steel chassis, emitting spark bursts upon contact as packages translate along conveyor tracks.",
+    metrics: { efficiency: "98.40%", nodes: 128, power: "12.8 MW" },
     icon: Cpu
   },
   {
-    title: "NEXUS PORTAL",
-    subtitle: "Dimensional Bridge Gateway",
-    description: "The event horizon tunnel for interstellar data projection. Operating at negative gravitational density, the Nexus Portal enables seamless transfer of digital matter.",
-    metrics: { efficiency: "95.12%", nodes: 256, power: "24.6 GW" },
+    title: "POWER GENERATOR",
+    subtitle: "Kinetic Engine Zone 02",
+    description: "Step into the core mechanical chamber. Industrial gear systems lock cogs and rotate at synchronized speeds, driving kinetic power grid operations and stabilizing local thermodynamic fields.",
+    metrics: { efficiency: "96.25%", nodes: 512, power: "34.5 MW" },
+    icon: Orbit
+  },
+  {
+    title: "QUANTUM DIAGNOSTICS",
+    subtitle: "Sub-Atomic Particle Deck 03",
+    description: "Enter the zero-gravity quantum laboratory. Observe floating Bohr atoms, rotating molecular lattices, and erratic drifting quantum particles. Hover over atomic and molecular structures to trigger diagnostic highlights and reveal technical info cards.",
+    metrics: { efficiency: "99.98%", nodes: 8192, power: "4.2 GW" },
+    icon: Cpu
+  },
+  {
+    title: "GENOMIC MATRIX",
+    subtitle: "Bio-Molecular Calibration 04",
+    description: "Float through winding DNA double-helix structures. Transparent holographic mainframe displays monitor real-time quantum wavefunctions, energy state vectors, and molecular alignment grids in zero gravity.",
+    metrics: { efficiency: "98.74%", nodes: 16384, power: "18.5 GW" },
     icon: Activity
   },
   {
-    title: "AI CYBER CITY",
+    title: "CYBER NETWORK NEXUS",
     subtitle: "Cyber-Avenue Sector 05",
-    description: "Welcome to the capital sector of the Techverse. Emerge from the warp portal and float down avenues lined with neon skyscrapers, falling matrix code, animated highway traffic, and drone patrols. Click buildings to query Techfest events.",
+    description: "Welcome to the capital sector of the Techverse. Emerge from the warp portal and float through a digital net of floating glassmorphic code panels, glowing Bezier cables, and orbiting HTML/CSS/React badges.",
     metrics: { efficiency: "98.92%", nodes: 32768, power: "55.8 GW" },
     icon: Building
   }

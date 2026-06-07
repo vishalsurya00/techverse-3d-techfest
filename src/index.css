@@ -793,3 +793,510 @@ body::after {
   color: var(--neon-blue);
   letter-spacing: 1px;
 }
+
+/* Floating Cyber Network World Styles */
+.cyber-card-wrapper {
+  perspective: 1000px;
+  pointer-events: auto;
+}
+
+.glass-code-card {
+  width: 280px;
+  background: rgba(5, 5, 15, 0.82);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 10px;
+  box-shadow: 
+    0 10px 40px 0 rgba(0, 0, 0, 0.75),
+    inset 0 0 15px rgba(0, 240, 255, 0.08);
+  padding: 16px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.glass-code-card.hovered {
+  border-color: var(--neon-blue);
+  box-shadow: 
+    0 15px 50px 0 rgba(0, 240, 255, 0.25),
+    0 0 30px 0 rgba(0, 240, 255, 0.15),
+    inset 0 0 20px rgba(0, 240, 255, 0.12);
+}
+
+.glass-code-card.expanded {
+  width: 380px;
+  border-color: var(--neon-pink);
+  box-shadow: 
+    0 20px 60px 0 rgba(255, 0, 124, 0.3),
+    0 0 40px 0 rgba(255, 0, 124, 0.2),
+    inset 0 0 25px rgba(255, 0, 124, 0.15);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  padding-bottom: 8px;
+  font-family: var(--font-hud);
+}
+
+.card-header-expanded {
+  border-color: rgba(255, 0, 124, 0.25);
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--neon-blue);
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+}
+
+.card-title.pink {
+  color: var(--neon-pink);
+  text-shadow: 0 0 8px rgba(255, 0, 124, 0.4);
+}
+
+.card-type {
+  font-size: 9px;
+  font-family: monospace;
+  color: var(--text-secondary);
+  background: rgba(0, 240, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 240, 255, 0.15);
+}
+
+.card-type.pink {
+  background: rgba(255, 0, 124, 0.08);
+  border-color: rgba(255, 0, 124, 0.2);
+  color: var(--neon-pink);
+}
+
+.card-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  font-family: var(--font-body);
+}
+
+/* Code Snippet Area */
+.code-snippet-box {
+  background: rgba(2, 2, 8, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 12px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #c5c9db;
+  text-align: left;
+  max-height: 120px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.code-snippet-box.typing {
+  border-color: rgba(255, 0, 124, 0.25);
+  max-height: 200px;
+}
+
+.code-line {
+  display: flex;
+  gap: 8px;
+}
+
+.code-num {
+  color: var(--text-muted);
+  width: 14px;
+  text-align: right;
+  user-select: none;
+}
+
+.code-content {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Syntax Highlighting */
+.syn-keyword { color: #ff79c6; font-weight: bold; }
+.syn-string { color: #f1fa8c; }
+.syn-function { color: #50fa7b; }
+.syn-comment { color: #6272a4; font-style: italic; }
+.syn-variable { color: #bd00ff; }
+.syn-tag { color: #8be9fd; }
+.syn-number { color: #bd93f9; }
+
+.terminal-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background-color: var(--neon-pink);
+  margin-left: 2px;
+  animation: cursor-blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+@keyframes cursor-blink {
+  from, to { background-color: transparent }
+  50% { background-color: var(--neon-pink) }
+}
+
+/* Orbit Badge Styling */
+.orbit-badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.orbit-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(5, 5, 15, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid var(--neon-blue);
+  box-shadow: 
+    0 0 15px rgba(0, 240, 255, 0.3),
+    inset 0 0 10px rgba(0, 240, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neon-blue);
+  transition: all 0.3s ease;
+  animation: float-badge 3s ease-in-out infinite alternate;
+}
+
+.orbit-badge.html { border-color: #ff5722; color: #ff5722; box-shadow: 0 0 15px rgba(255, 87, 34, 0.3); }
+.orbit-badge.css { border-color: #2196f3; color: #2196f3; box-shadow: 0 0 15px rgba(33, 150, 243, 0.3); }
+.orbit-badge.js { border-color: #ffeb3b; color: #ffeb3b; box-shadow: 0 0 15px rgba(255, 235, 59, 0.3); }
+.orbit-badge.react { border-color: #00d8ff; color: #00d8ff; box-shadow: 0 0 15px rgba(0, 216, 255, 0.3); }
+.orbit-badge.ai { border-color: #9c27b0; color: #9c27b0; box-shadow: 0 0 15px rgba(156, 39, 176, 0.3); }
+.orbit-badge.cloud { border-color: #00bcd4; color: #00bcd4; box-shadow: 0 0 15px rgba(0, 188, 212, 0.3); }
+
+.orbit-badge-label {
+  margin-top: 4px;
+  font-family: var(--font-hud);
+  font-size: 8px;
+  color: var(--text-primary);
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  background: rgba(2, 2, 8, 0.7);
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 0.5px solid rgba(255,255,255,0.15);
+  white-space: nowrap;
+}
+
+@keyframes float-badge {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-6px) rotate(5deg); }
+}
+
+/* Robotics Factory Industrial Hologram & Hazard Styles */
+.factory-holo-card {
+  width: 260px;
+  background: rgba(6, 12, 22, 0.85);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 
+    0 10px 40px 0 rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(0, 240, 255, 0.15),
+    inset 0 0 20px rgba(0, 240, 255, 0.1);
+  padding: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #c5c9db;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 4px solid var(--neon-blue);
+}
+
+.factory-holo-card.danger {
+  border-color: rgba(255, 0, 124, 0.4);
+  border-left: 4px solid var(--neon-pink);
+  box-shadow: 
+    0 10px 40px 0 rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(255, 0, 124, 0.15),
+    inset 0 0 20px rgba(255, 0, 124, 0.15);
+}
+
+.factory-header {
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  padding-bottom: 6px;
+  font-family: var(--font-hud);
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--neon-blue);
+  letter-spacing: 1px;
+}
+
+.factory-header.pink {
+  color: var(--neon-pink);
+  border-color: rgba(255, 0, 124, 0.2);
+}
+
+.factory-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 4px 0;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+.factory-data-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.factory-data-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.factory-label {
+  color: var(--text-secondary);
+}
+
+.factory-value {
+  color: var(--neon-blue);
+  font-weight: bold;
+}
+
+.factory-value.pink {
+  color: var(--neon-pink);
+}
+
+.factory-value.green {
+  color: var(--cyber-green);
+}
+
+/* Hazard Stripes indicator */
+.hazard-bar {
+  height: 6px;
+  background: linear-gradient(
+    45deg,
+    #ffc107 25%,
+    #000 25%,
+    #000 50%,
+    #ffc107 50%,
+    #ffc107 75%,
+    #000 75%,
+    #000
+  );
+  background-size: 14px 14px;
+  border-radius: 3px;
+  opacity: 0.85;
+}
+
+/* Telemetry log */
+.telemetry-log {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 10px;
+  max-height: 80px;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-entry {
+  color: #a8abbf;
+}
+
+.log-entry span {
+  color: var(--neon-pink);
+}
+
+.log-entry.ready span {
+  color: var(--cyber-green);
+}
+
+/* Flashing warning light styles */
+.warning-flashing {
+  animation: warning-flash 1s infinite alternate;
+}
+
+@keyframes warning-flash {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; filter: drop-shadow(0 0 10px rgba(255, 0, 124, 0.8)); }
+}
+
+/* Quantum Lab Scientific Hologram & Molecule Hud Styles */
+.quantum-holo-card {
+  width: 270px;
+  background: rgba(4, 2, 12, 0.82);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(189, 0, 255, 0.25);
+  border-radius: 8px;
+  box-shadow: 
+    0 10px 40px 0 rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(189, 0, 255, 0.12),
+    inset 0 0 20px rgba(189, 0, 255, 0.08);
+  padding: 16px;
+  font-family: 'Courier New', Courier, monospace;
+  color: #c5c9db;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 4px solid var(--neon-purple);
+}
+
+.quantum-holo-card.blue {
+  border-color: rgba(0, 240, 255, 0.25);
+  border-left-color: var(--neon-blue);
+  box-shadow: 
+    0 10px 40px 0 rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(0, 240, 255, 0.12),
+    inset 0 0 20px rgba(0, 240, 255, 0.08);
+}
+
+.quantum-header {
+  border-bottom: 1px solid rgba(189, 0, 255, 0.2);
+  padding-bottom: 6px;
+  font-family: var(--font-hud);
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--neon-purple);
+  letter-spacing: 1px;
+}
+
+.quantum-header.blue {
+  color: var(--neon-blue);
+  border-color: rgba(0, 240, 255, 0.2);
+}
+
+.quantum-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 4px 0;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+.quantum-data-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quantum-data-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.quantum-label {
+  color: var(--text-secondary);
+}
+
+.quantum-value {
+  color: var(--neon-purple);
+  font-weight: bold;
+}
+
+.quantum-value.blue {
+  color: var(--neon-blue);
+}
+
+.quantum-value.pink {
+  color: var(--neon-pink);
+}
+
+.quantum-value.green {
+  color: var(--cyber-green);
+}
+
+/* Hover-revealed Molecular Telemetry Overlay Card */
+.molecular-hud-card {
+  min-width: 190px;
+  background: rgba(3, 3, 10, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid var(--neon-blue);
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 
+    0 8px 32px 0 rgba(0,0,0,0.6),
+    0 0 15px rgba(0, 240, 255, 0.25),
+    inset 0 0 10px rgba(0, 240, 255, 0.1);
+  font-family: 'Courier New', Courier, monospace;
+  color: #ffffff;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+  animation: molecular-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.molecular-hud-card.purple {
+  border-color: var(--neon-purple);
+  box-shadow: 
+    0 8px 32px 0 rgba(0,0,0,0.6),
+    0 0 15px rgba(189, 0, 255, 0.25),
+    inset 0 0 10px rgba(189, 0, 255, 0.1);
+}
+
+.molecular-hud-title {
+  font-family: var(--font-hud);
+  font-size: 9px;
+  color: var(--neon-blue);
+  font-weight: bold;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+  letter-spacing: 1px;
+}
+
+.molecular-hud-title.purple {
+  color: var(--neon-purple);
+  border-color: rgba(189, 0, 255, 0.2);
+}
+
+.molecular-hud-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+}
+
+.molecular-hud-label {
+  color: var(--text-secondary);
+}
+
+.molecular-hud-val {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.molecular-hud-val.blue {
+  color: var(--neon-blue);
+}
+
+.molecular-hud-val.purple {
+  color: var(--neon-purple);
+}
+
+@keyframes molecular-fade-in {
+  from { opacity: 0; transform: scale(0.9) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
