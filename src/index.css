@@ -732,3 +732,64 @@ body::after {
   box-shadow: 0 0 8px var(--cyber-green);
   margin-right: 8px;
 }
+
+/* Futuristic Event Modal Styling */
+.event-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(2, 2, 8, 0.65);
+  backdrop-filter: blur(8px);
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.event-modal {
+  width: 90%;
+  max-width: 500px;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 0 30px rgba(189, 0, 255, 0.25);
+  border-radius: 12px;
+}
+
+.event-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(189, 0, 255, 0.2);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+
+.event-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-hud);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.event-modal-close:hover {
+  color: var(--neon-pink);
+  text-shadow: 0 0 8px var(--neon-pink);
+}
+
+.event-modal-info {
+  margin-top: 20px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px dashed rgba(0, 240, 255, 0.3);
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--neon-blue);
+  letter-spacing: 1px;
+}

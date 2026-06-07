@@ -9,6 +9,7 @@ import HudOverlay from './components/HudOverlay';
 import SpaceHero from './components/SpaceHero';
 import CyberWormhole from './components/CyberWormhole';
 import TechNodes from './components/TechNodes';
+import CyberCity from './components/CyberCity';
 import Effects from './components/Effects';
 import audioEngine from './utils/AudioEngine';
 
@@ -20,24 +21,24 @@ function CameraController({ currentScrollY, activeSector, mouseCoords }) {
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    // 1. Calculate base camera Z position from scroll progress
-    // Total scroll height is 4 viewports (5 sectors = 4 * viewportHeight)
-    const totalHeight = window.innerHeight * 4;
+    // Calculate base camera Z position from scroll progress
+    // Total scroll height is 5 viewports (6 sectors = 5 * viewportHeight)
+    const totalHeight = window.innerHeight * 5;
     const progress = Math.min(1, Math.max(0, currentScrollY / totalHeight));
 
-    // Travel from space landing (Z = 20) down through the wormhole (Z = -60)
-    const baseZ = 20 - progress * 80;
+    // Travel Z range: Starts at +20 (Sector 0) and flies down to -105 (Sector 5 Cyber City center)
+    const baseZ = 20 - progress * 125;
 
-    // 2. Slow continuous float drift (makes the camera feel active)
+    // Slow continuous float drift (makes the camera feel active)
     const driftX = Math.sin(time * 0.4) * 0.08;
     const driftY = Math.cos(time * 0.3) * 0.08;
     const driftZ = Math.sin(time * 0.6) * 0.12;
 
-    // 3. Mouse Parallax Offsets
+    // Mouse Parallax Offsets
     const parallaxX = mouseCoords.current.x * 0.7;
     const parallaxY = -mouseCoords.current.y * 0.5;
 
-    // 4. Determine base sector targets (positions & focal points)
+    // Determine base sector targets (positions & focal points)
     let targetX = 0;
     let targetY = 0;
     let targetLookX = 0;
@@ -45,7 +46,7 @@ function CameraController({ currentScrollY, activeSector, mouseCoords }) {
     let targetLookZ = baseZ - 4; // look slightly ahead by default
 
     if (activeSector === 0) {
-      // Hero screen: centered, look directly at floating Techfest logo (at Z = 15)
+      // Hero screen: center focus on Techfest logo (at Z = 15)
       targetX = 0;
       targetY = 0.1;
       targetLookX = 0;
@@ -79,9 +80,16 @@ function CameraController({ currentScrollY, activeSector, mouseCoords }) {
       targetLookX = 2.2;
       targetLookY = -0.5;
       targetLookZ = -60;
+    } else if (activeSector === 5) {
+      // Sector 5: AI Cyber City (fly down the middle of skyscrapers looking straight ahead)
+      targetX = 0;
+      targetY = 0.5;
+      targetLookX = 0;
+      targetLookY = 0.5;
+      targetLookZ = -135; // Look deep down the cyber highway
     }
 
-    // 5. Interpolate Camera Coordinates (applying scroll, drift, and parallax)
+    // Interpolate Camera Coordinates (applying scroll, drift, and parallax)
     const finalTargetX = targetX + parallaxX + driftX;
     const finalTargetY = targetY + parallaxY + driftY;
     const finalTargetZ = baseZ + driftZ;
@@ -90,7 +98,7 @@ function CameraController({ currentScrollY, activeSector, mouseCoords }) {
     camera.position.y = THREE.MathUtils.lerp(camera.position.y, finalTargetY, 0.08);
     camera.position.z = THREE.MathUtils.lerp(camera.position.z, finalTargetZ, 0.08);
 
-    // 6. Interpolate Camera Look-At Target Coordinate
+    // Interpolate Camera Look-At Target Coordinate
     lookAtTargetRef.current.x = THREE.MathUtils.lerp(lookAtTargetRef.current.x, targetLookX, 0.08);
     lookAtTargetRef.current.y = THREE.MathUtils.lerp(lookAtTargetRef.current.y, targetLookY, 0.08);
     lookAtTargetRef.current.z = THREE.MathUtils.lerp(lookAtTargetRef.current.z, targetLookZ, 0.08);
@@ -105,11 +113,12 @@ export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSector, setActiveSector] = useState(0);
   const [currentScrollY, setCurrentScrollY] = useState(0);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   
   const mouseCoords = useRef({ x: 0, y: 0 });
   const lenisRef = useRef(null);
 
-  // Capture mouse movement coordinates mapped from -1 to +1
+  // Capture mouse coordinates mapped from -1 to +1
   useEffect(() => {
     const handleMouseMove = (e) => {
       mouseCoords.current.x = (e.clientX / window.innerWidth) * 2 - 1;
@@ -141,10 +150,10 @@ export default function App() {
       const scrollY = e.animatedScroll;
       setCurrentScrollY(scrollY);
 
-      // Map scroll location to 5 sectors (0 to 4)
+      // Map scroll location to 6 sectors (0 to 5)
       const viewportHeight = window.innerHeight;
       const sector = Math.min(
-        4,
+        5,
         Math.max(0, Math.floor((scrollY + viewportHeight * 0.5) / viewportHeight))
       );
       setActiveSector(sector);
@@ -166,20 +175,23 @@ export default function App() {
     <div className="app-container">
       {/* 3D Cinematic Universe Layer */}
       <div className="canvas-container">
-        <Canvas camera={{ fov: 60, near: 0.1, far: 150, position: [0, 0.1, 20] }}>
+        <Canvas camera={{ fov: 60, near: 0.1, far: 180, position: [0, 0.1, 20] }}>
           <ambientLight intensity={0.12} />
           
-          {/* Space Hero landing assets (stars, planets, nebula, galaxies, meteors, logo) */}
+          {/* Space Hero landing assets */}
           <SpaceHero />
 
           {/* Core wormhole flight tunnel particles and rings */}
           <CyberWormhole currentScrollY={currentScrollY} />
           
-          {/* Detailed Sector Nodes (shifted downwards along Z) */}
+          {/* Detailed Sector Nodes */}
           <TechNodes 
             activeSector={activeSector - 1} // maps activeSector [1..4] to nodes [0..3]
             onNodeClick={(id) => handleNavigate(id + 1)} 
           />
+
+          {/* AI Cyber City (Sector 5 destination) */}
+          <CyberCity onSelectEvent={setSelectedEvent} />
           
           <Effects />
           
@@ -194,7 +206,7 @@ export default function App() {
       {/* Futuristic Cinematic Boot Loader */}
       <CustomLoader onLoaded={() => setIsLoaded(true)} />
 
-      {/* Cyber overlay HUDs */}
+      {/* HUD overlays, navigation, indicators */}
       {isLoaded && (
         <>
           <div className="hud-grid" />
@@ -210,16 +222,19 @@ export default function App() {
           <HudOverlay 
             activeSector={activeSector} 
             onBeginJourney={() => handleNavigate(1)} 
+            selectedEvent={selectedEvent}
+            onCloseEvent={() => setSelectedEvent(null)}
           />
         </>
       )}
 
-      {/* 5 scroll anchors of 100vh height each */}
+      {/* 6 scroll anchors of 100vh height each */}
       <div style={{ height: '100vh' }} id="sector-0" />
       <div style={{ height: '100vh' }} id="sector-1" />
       <div style={{ height: '100vh' }} id="sector-2" />
       <div style={{ height: '100vh' }} id="sector-3" />
       <div style={{ height: '100vh' }} id="sector-4" />
+      <div style={{ height: '100vh' }} id="sector-5" />
     </div>
   );
 }

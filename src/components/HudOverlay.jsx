@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { Activity, ShieldAlert, Cpu, Orbit, Waypoints, Compass } from 'lucide-react';
+import { Activity, ShieldAlert, Cpu, Orbit, Waypoints, Compass, Building, X } from 'lucide-react';
 import audioEngine from '../utils/AudioEngine';
 
 const SECTOR_DATA = [
@@ -38,10 +38,17 @@ const SECTOR_DATA = [
     description: "The event horizon tunnel for interstellar data projection. Operating at negative gravitational density, the Nexus Portal enables seamless transfer of digital matter.",
     metrics: { efficiency: "95.12%", nodes: 256, power: "24.6 GW" },
     icon: Activity
+  },
+  {
+    title: "AI CYBER CITY",
+    subtitle: "Cyber-Avenue Sector 05",
+    description: "Welcome to the capital sector of the Techverse. Emerge from the warp portal and float down avenues lined with neon skyscrapers, falling matrix code, animated highway traffic, and drone patrols. Click buildings to query Techfest events.",
+    metrics: { efficiency: "98.92%", nodes: 32768, power: "55.8 GW" },
+    icon: Building
   }
 ];
 
-export default function HudOverlay({ activeSector, onBeginJourney }) {
+export default function HudOverlay({ activeSector, onBeginJourney, selectedEvent, onCloseEvent }) {
   const [hovering, setHovering] = useState(false);
   const [systemLoad, setSystemLoad] = useState(12.4);
 
@@ -66,7 +73,8 @@ export default function HudOverlay({ activeSector, onBeginJourney }) {
         target.tagName === 'A' || 
         target.closest('.cyber-btn') || 
         target.closest('.nav-link') ||
-        target.style.cursor === 'pointer';
+        target.style.cursor === 'pointer' ||
+        target.closest('.event-modal-close');
         
       setHovering(!!isInteractive);
     };
@@ -103,6 +111,63 @@ export default function HudOverlay({ activeSector, onBeginJourney }) {
           top: smoothY,
         }}
       />
+
+      {/* Futuristic Event Dialog Modal Backdrop */}
+      <AnimatePresence>
+        {selectedEvent && (
+          <div className="event-modal-backdrop" onClick={onCloseEvent}>
+            <motion.div
+              className="event-modal glass-panel-purple"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.85, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.85, y: 30 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Header */}
+              <div className="event-modal-header">
+                <span className="text-hud text-neon-purple animate-pulse" style={{ fontSize: '10px', fontWeight: 'bold' }}>
+                  // TECHFEST TRANSMISSION // {selectedEvent.type}
+                </span>
+                <button
+                  className="event-modal-close"
+                  onClick={onCloseEvent}
+                  onMouseEnter={handleHover}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Title & Info */}
+              <h2 className="text-hud text-neon-blue glitch" data-text={selectedEvent.title} style={{ fontSize: '26px', fontWeight: 'bold', marginBottom: '10px' }}>
+                {selectedEvent.title}
+              </h2>
+              
+              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '20px' }}>
+                {selectedEvent.desc}
+              </p>
+
+              {/* Matrix Telemetry Details */}
+              <div className="event-modal-info">
+                {selectedEvent.details}
+              </div>
+
+              {/* Confirm / Action button */}
+              <button
+                className="cyber-btn"
+                style={{ marginTop: '24px', width: '100%' }}
+                onClick={() => {
+                  audioEngine.playClick();
+                  alert(`Connecting portal connection to ${selectedEvent.title} registration database...`);
+                }}
+                onMouseEnter={handleHover}
+              >
+                CONNECT DATAPATH
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Cinematic Central Hero Card (Only visible in Sector 0) */}
       <AnimatePresence>
@@ -284,7 +349,12 @@ export default function HudOverlay({ activeSector, onBeginJourney }) {
           </span>
         </div>
         <div style={{ fontSize: '12px', fontFamily: 'monospace', color: 'var(--text-secondary)' }}>
-          {activeSector === 0 ? "CLICK BEGIN JOURNEY TO WARP DOWN OR USE MOUSE WHEEL" : "SCROLL MOUSE WHEEL TO TRAVEL THROUGH WARP HIGHWAY"}
+          {activeSector === 5 
+            ? "CLICK ON SKYSCRAPERS OR ROBOTS TO OPEN EVENT TELEMETRY FILES" 
+            : activeSector === 0 
+              ? "CLICK BEGIN JOURNEY TO WARP DOWN OR USE MOUSE WHEEL" 
+              : "SCROLL MOUSE WHEEL TO TRAVEL THROUGH WARP HIGHWAY"
+          }
         </div>
       </div>
     </div>

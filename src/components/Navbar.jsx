@@ -17,10 +17,13 @@ export default function Navbar({ activeSector, currentScrollY, onNavigate }) {
 
   // Coordinates calculated from current scroll position
   const calcCoords = () => {
-    // Scroll progress maps from Z = 45 (cosmic start) down to Z = -65 (portal)
-    const x = Math.sin(currentScrollY * 0.003) * 18.52;
-    const y = Math.cos(currentScrollY * 0.002) * 12.14;
-    const z = (45 - currentScrollY * 0.055).toFixed(2);
+    // Scroll progress maps Z from +20 (Cosmic start) down to -105 (Cyber City center)
+    const viewportHeight = window.innerHeight || 800;
+    const progress = currentScrollY / (viewportHeight * 5); // 5 sectors of scroll height
+    
+    const x = Math.sin(currentScrollY * 0.002) * 16.42;
+    const y = Math.cos(currentScrollY * 0.0015) * 10.84;
+    const z = (20 - progress * 125).toFixed(2);
     return {
       x: x.toFixed(2),
       y: y.toFixed(2),
@@ -35,7 +38,8 @@ export default function Navbar({ activeSector, currentScrollY, onNavigate }) {
     { id: 1, label: 'NEXUS CORE' },
     { id: 2, label: 'SYNAPSE NET' },
     { id: 3, label: 'QUANTUM CELL' },
-    { id: 4, label: 'NEXUS PORTAL' }
+    { id: 4, label: 'NEXUS PORTAL' },
+    { id: 5, label: 'AI CYBER CITY' }
   ];
 
   return (
