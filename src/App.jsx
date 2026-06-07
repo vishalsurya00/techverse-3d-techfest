@@ -26,8 +26,14 @@ function CameraController({ currentScrollY, activeSector, mouseCoords }) {
     const totalHeight = window.innerHeight * 5;
     const progress = Math.min(1, Math.max(0, currentScrollY / totalHeight));
 
-    // Travel Z range: Starts at +20 (Sector 0) and flies down to -105 (Sector 5 Cyber City center)
-    const baseZ = 20 - progress * 125;
+    // Dynamic Z camera travel:
+    // Sectors 0-4 (progress 0.0 -> 0.8) travel from Z = 20 to Z = -80.
+    // Sector 5 (progress 0.8 -> 1.0) flies deep through the street from Z = -80 to Z = -138.
+    let baseZ = 20 - progress * 125;
+    if (progress > 0.8) {
+      const sector5Progress = (progress - 0.8) / 0.2; // 0 to 1
+      baseZ = -80 - sector5Progress * 58;
+    }
 
     // Slow continuous float drift (makes the camera feel active)
     const driftX = Math.sin(time * 0.4) * 0.08;
@@ -83,10 +89,10 @@ function CameraController({ currentScrollY, activeSector, mouseCoords }) {
     } else if (activeSector === 5) {
       // Sector 5: AI Cyber City (fly down the middle of skyscrapers looking straight ahead)
       targetX = 0;
-      targetY = 0.5;
-      targetLookX = 0;
-      targetLookY = 0.5;
-      targetLookZ = -135; // Look deep down the cyber highway
+      targetY = 0.3; // lower to street level (from 0.5 to 0.3)
+      targetLookX = mouseCoords.current.x * 5.0; // Interactive mouse yaw steering to look at skyscrapers
+      targetLookY = 0.3 - mouseCoords.current.y * 2.5; // Interactive mouse pitch steering
+      targetLookZ = -190; // Look deep down the cyber highway
     }
 
     // Interpolate Camera Coordinates (applying scroll, drift, and parallax)
