@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, ShieldAlert } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 import audioEngine from '../utils/AudioEngine';
 
 export default function Navbar({ activeSector, currentScrollY, onNavigate }) {
@@ -17,9 +17,10 @@ export default function Navbar({ activeSector, currentScrollY, onNavigate }) {
 
   // Coordinates calculated from current scroll position
   const calcCoords = () => {
-    const x = Math.sin(currentScrollY * 0.005) * 12.45;
-    const y = Math.cos(currentScrollY * 0.003) * 8.12;
-    const z = (currentScrollY * 0.05).toFixed(2);
+    // Scroll progress maps from Z = 45 (cosmic start) down to Z = -65 (portal)
+    const x = Math.sin(currentScrollY * 0.003) * 18.52;
+    const y = Math.cos(currentScrollY * 0.002) * 12.14;
+    const z = (45 - currentScrollY * 0.055).toFixed(2);
     return {
       x: x.toFixed(2),
       y: y.toFixed(2),
@@ -30,10 +31,11 @@ export default function Navbar({ activeSector, currentScrollY, onNavigate }) {
   const coords = calcCoords();
 
   const navSectors = [
-    { id: 0, label: 'NEXUS CORE' },
-    { id: 1, label: 'SYNAPSE NET' },
-    { id: 2, label: 'QUANTUM CELL' },
-    { id: 3, label: 'NEXUS PORTAL' }
+    { id: 0, label: 'COSMIC ENTRY' },
+    { id: 1, label: 'NEXUS CORE' },
+    { id: 2, label: 'SYNAPSE NET' },
+    { id: 3, label: 'QUANTUM CELL' },
+    { id: 4, label: 'NEXUS PORTAL' }
   ];
 
   return (
@@ -69,9 +71,9 @@ export default function Navbar({ activeSector, currentScrollY, onNavigate }) {
       {/* Telemetry and sound toggles */}
       <div className="nav-telemetry">
         <div className="telemetry-item">
-          SEC: <span>0{activeSector + 1}</span>
+          SEC: <span>0{activeSector}</span>
         </div>
-        <div className="telemetry-item" style={{ width: '180px' }}>
+        <div className="telemetry-item" style={{ width: '185px' }}>
           WARP COORDS: [X: <span>{coords.x}</span>, Y: <span>{coords.y}</span>, Z: <span>{coords.z}</span>]
         </div>
         

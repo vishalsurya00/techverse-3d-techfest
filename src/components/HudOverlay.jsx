@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { Activity, ShieldAlert, Cpu, Orbit, Waypoints } from 'lucide-react';
+import { Activity, ShieldAlert, Cpu, Orbit, Waypoints, Compass } from 'lucide-react';
 import audioEngine from '../utils/AudioEngine';
 
 const SECTOR_DATA = [
+  {
+    title: "GALAXY OVERVIEW",
+    subtitle: "Launch Sector 00",
+    description: "Welcome to Techverse. You are floating in the cosmic gateway of Techfest IIT Bombay. Calibrate your sensors, charge the warp matrix, and engage hyperdrive to descend through the cybernetic sectors.",
+    metrics: { efficiency: "100.0%", nodes: "STANDBY", power: "INIT" },
+    icon: Compass
+  },
   {
     title: "NEXUS CORE",
     subtitle: "Central Intelligence Hub",
@@ -34,7 +41,7 @@ const SECTOR_DATA = [
   }
 ];
 
-export default function HudOverlay({ activeSector }) {
+export default function HudOverlay({ activeSector, onBeginJourney }) {
   const [hovering, setHovering] = useState(false);
   const [systemLoad, setSystemLoad] = useState(12.4);
 
@@ -80,7 +87,7 @@ export default function HudOverlay({ activeSector }) {
   }, []);
 
   const activeData = SECTOR_DATA[activeSector];
-  const IconComponent = activeData.icon;
+  const IconComponent = activeData ? activeData.icon : Compass;
 
   const handleHover = () => {
     audioEngine.playHover();
@@ -96,6 +103,72 @@ export default function HudOverlay({ activeSector }) {
           top: smoothY,
         }}
       />
+
+      {/* Cinematic Central Hero Card (Only visible in Sector 0) */}
+      <AnimatePresence>
+        {activeSector === 0 && (
+          <motion.div
+            className="hero-center-panel"
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: -40 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              zIndex: 60,
+              pointerEvents: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <h1 
+              className="text-hud text-neon-blue glitch" 
+              data-text="TECHVERSE"
+              style={{
+                fontSize: '84px',
+                fontWeight: '900',
+                letterSpacing: '14px',
+                lineHeight: 1.1,
+                marginBottom: '8px'
+              }}
+            >
+              TECHVERSE
+            </h1>
+            <p 
+              className="text-hud text-neon-purple"
+              style={{
+                fontSize: '18px',
+                letterSpacing: '6px',
+                marginBottom: '40px',
+                fontWeight: '500'
+              }}
+            >
+              Journey Through Innovation
+            </p>
+            <button
+              className="cyber-btn"
+              style={{
+                padding: '16px 44px',
+                fontSize: '15px',
+                boxShadow: '0 0 25px rgba(0, 240, 255, 0.4)',
+                borderRadius: '4px'
+              }}
+              onClick={() => {
+                audioEngine.playClick();
+                onBeginJourney();
+              }}
+              onMouseEnter={handleHover}
+            >
+              Begin Journey
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Left HUD Panel - Diagnostics & Radar */}
       <div className="hud-panel-left glass-panel">
@@ -130,7 +203,7 @@ export default function HudOverlay({ activeSector }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#ff007c', fontSize: '12px' }}>
           <ShieldAlert size={14} className="animate-pulse" />
           <span className="text-hud" style={{ fontSize: '10px', letterSpacing: '1px' }}>
-            SECTOR BOUNDARY ACTIVE
+            {activeSector === 0 ? "HYPERDRIVE STANDBY" : "SECTOR BOUNDARY ACTIVE"}
           </span>
         </div>
       </div>
@@ -156,29 +229,29 @@ export default function HudOverlay({ activeSector }) {
                   LOCATION TELEMETRY
                 </span>
                 <h2 className="text-hud text-neon-purple" style={{ fontSize: '22px', fontWeight: 'bold' }}>
-                  {activeData.title}
+                  {activeData?.title}
                 </h2>
               </div>
             </div>
 
             {/* Description */}
             <div className="sector-description" style={{ marginTop: '10px' }}>
-              {activeData.description}
+              {activeData?.description}
             </div>
 
             {/* Stats matrix */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid rgba(189, 0, 255, 0.15)', paddingTop: '16px', marginTop: '10px' }}>
               <div className="hud-data-row">
                 <span className="hud-data-label">INDEX RATIO:</span>
-                <span className="hud-data-val purple">{activeData.metrics.efficiency}</span>
+                <span className="hud-data-val purple">{activeData?.metrics.efficiency}</span>
               </div>
               <div className="hud-data-row">
                 <span className="hud-data-label">ACTIVE SUB-NODES:</span>
-                <span className="hud-data-val purple">{activeData.metrics.nodes}</span>
+                <span className="hud-data-val purple">{activeData?.metrics.nodes}</span>
               </div>
               <div className="hud-data-row">
                 <span className="hud-data-label">ENERGY OUTPUT:</span>
-                <span className="hud-data-val purple">{activeData.metrics.power}</span>
+                <span className="hud-data-val purple">{activeData?.metrics.power}</span>
               </div>
             </div>
 
@@ -188,11 +261,15 @@ export default function HudOverlay({ activeSector }) {
               style={{ marginTop: '20px', width: '100%' }}
               onClick={() => {
                 audioEngine.playClick();
-                alert(`Initiating query payload into ${activeData.title}...`);
+                if (activeSector === 0) {
+                  onBeginJourney();
+                } else {
+                  alert(`Initiating query payload into ${activeData?.title}...`);
+                }
               }}
               onMouseEnter={handleHover}
             >
-              QUERY DATAPATH
+              {activeSector === 0 ? "LAUNCH MISSION" : "QUERY DATAPATH"}
             </button>
           </div>
         </motion.div>
@@ -202,10 +279,12 @@ export default function HudOverlay({ activeSector }) {
       <div className="hud-panel-bottom glass-panel">
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}>
           <span className="pulse-node" />
-          <span className="text-hud" style={{ fontSize: '10px' }}>SYSTEM READY [CORE ONLINE]</span>
+          <span className="text-hud" style={{ fontSize: '10px' }}>
+            {activeSector === 0 ? "GATEWAY ESTABLISHED" : "SYSTEM READY [CORE ONLINE]"}
+          </span>
         </div>
         <div style={{ fontSize: '12px', fontFamily: 'monospace', color: 'var(--text-secondary)' }}>
-          SCROLL MOUSE WHEEL TO TRAVEL THROUGH WARP HIGHWAY
+          {activeSector === 0 ? "CLICK BEGIN JOURNEY TO WARP DOWN OR USE MOUSE WHEEL" : "SCROLL MOUSE WHEEL TO TRAVEL THROUGH WARP HIGHWAY"}
         </div>
       </div>
     </div>
